@@ -72,7 +72,8 @@ $task = mysqli_query($con, $sql);
             </div>
 
         </div>
-        <button class="theme-toggle" id="themeToggle"><img src="img/lune.png" alt="dark theme"></button>
+        <button class="theme-toggle" id="select" onclick="darkLight()" style="cursor: help;"><img src=" img/lune.png"
+                alt="dark theme"></button>
     </div>
 
     <?php if (mysqli_num_rows($task) > 0): ?>
@@ -115,24 +116,9 @@ $task = mysqli_query($con, $sql);
                     </div>
                 </div>
 
-                <script>
-                    function updateStatus(checkbox, taskId) {
+                <script>             function updateStatus(checkbox, taskId) {
                         const status = checkbox.checked ? 1 : 0;
-
-                        fetch('db/update-status.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({ task_id: taskId, completed: status }),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Success:', data);
-                            })
-                            .catch((error) => {
-                                console.error('Error:', error);
-                            });
+                        fetch('db/update-status.php', { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify({ task_id: taskId, completed: status }), }).then(response => response.json()).then(data => { console.log('Success:', data); }).catch((error) => { console.error('Error:', error); });
                     }
                 </script>
 
@@ -149,13 +135,13 @@ $task = mysqli_query($con, $sql);
 
     </div>
 </div>
+<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    +
+</button>
 </body>
 
 </html>
 
-<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    +
-</button>
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -189,5 +175,5 @@ $task = mysqli_query($con, $sql);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-
+<script type="text/javascript" src="dark.js"></script>
 <script src="main.js"></script>

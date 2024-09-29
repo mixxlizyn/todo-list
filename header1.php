@@ -56,4 +56,4 @@ if (isset($_SESSION['success_message'])) {
     </div>
 </nav>
 
-<body>
+<body class="theme-light">

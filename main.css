@@ -248,3 +248,20 @@
 .card button.save {
     float: right;
 }
+@media (max-width: 600px) {
+    .search-container input {
+        width: calc(100% - 40px); /* Учет отступов/границ */
+        font-size: 16px; /* Немного больший шрифт для читаемости */
+    }
+
+    .add-btn {
+        width: 40px;
+        height: 40px;
+        padding: 10px; /* Уменьшение отступов */
+        font-size: 20px; /* Меньший значок */
+    }
+}
+.theme-dark{
+    background: rgb(31, 26, 26);
+    color: white;
+}
