@@ -261,7 +261,76 @@
         font-size: 20px; /* Меньший значок */
     }
 }
-.theme-dark{
+/* .theme-dark{
     background: rgb(31, 26, 26);
     color: white;
+} */
+/* Основные стили */
+.theme-dark {
+    background: #1f1a1a;
+    color: white;
+}
+
+.theme-dark .search-container input {
+    background-color: #333;
+    color: #eee;
+    border: 1px solid #555;
+}
+
+.theme-dark .search-icon {
+    color: #ccc;
+}
+
+.theme-dark .filter-btn, .theme-dark .theme-toggle {
+    background-color: #4c48c6;
+    color: white;
+}
+
+.theme-dark .todo-item {
+    background-color: #2a2727;
+    color: #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.theme-dark .note-title {
+    color: #eee;
+}
+
+.theme-dark .note-title.completed {
+    color: #aaa;
+}
+
+.theme-dark .note-actions .edit-btn {
+    color: #a8a4ff;
+}
+
+.theme-dark .note-actions .delete-btn {
+    color: #f36a6a;
+}
+
+.theme-dark .card {
+    background: #3a3a3a;
+    color: #ddd;
+    border: 1px solid #555;
+}
+
+.theme-dark .card input[type="text"], .theme-dark .card textarea {
+    background-color: #4a4a4a;
+    color: #ddd;
+    border: 1px solid #666;
+}
+
+.theme-dark .card button {
+    background-color: #4c48c6;
+}
+
+.theme-dark .card button.delete {
+    background-color: #b33434;
+}
+
+.theme-dark .add-btn {
+    background-color: #4c48c6;
+}
+.theme-dark .add-btn:hover {
+    background-color: #3b3ab3;
 }

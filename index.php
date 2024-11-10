@@ -72,8 +72,10 @@ $task = mysqli_query($con, $sql);
             </div>
 
         </div>
-        <button class="theme-toggle" id="select" onclick="darkLight()" style="cursor: help;"><img src=" img/lune.png"
-                alt="dark theme"></button>
+        <button class="theme-toggle" id="select" onclick="darkLight()"><img src=" img/lune.png" alt="dark theme"
+                class="theme-dark" style="
+    background: none;
+"></button>
     </div>
 
     <?php if (mysqli_num_rows($task) > 0): ?>
