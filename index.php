@@ -40,15 +40,12 @@ $task = mysqli_query($con, $sql);
     }
 </style>
 <div class="container" style="margin-top: 70px;">
-    <h1>TODO LIST</h1>
+    <h1>СПИСОК ЗАМЕТОК</h1>
     <div class="search-bar">
         <div class="search-container">
             <form method="get" action="index.php" class="search-container">
-                <input type="text" placeholder="поиск записи..." type="search" name="search" id="searh">
-
-
-
-                <button class="search-icon"><img src="img/lupa.png" alt="lupa"></button>
+                <input type="text" placeholder="поиск записи..." name="search" id="search">
+                <button class="search-icon"><img src="img/lupa.png" alt="поиск"></button>
             </form>
         </div>
         <div class="filter">
@@ -70,41 +67,31 @@ $task = mysqli_query($con, $sql);
                     </select>
                 </form>
             </div>
-
         </div>
-        <button class="theme-toggle" id="select" onclick="darkLight()"><img src=" img/lune.png" alt="dark theme"
-                class="theme-dark" style="
-    background: none;
-"></button>
+        <button class="theme-toggle" id="select" onclick="darkLight()">
+            <img src="img/lune.png" alt="темная тема" class="theme-dark" style="background: none;">
+        </button>
     </div>
 
     <?php if (mysqli_num_rows($task) > 0): ?>
-        <?php while ($tas = mysqli_fetch_assoc($task)):
-            $isCompleted = $tas['is_completed'] == 1;
-            $taskId = $tas['id'];
-            ?>
-            <div class="center" style="
-    display: flex;
-    gap: 20px;
-    justify-content: flex-start;
-    flex-wrap:wrap;
-">
+        <div class="center" style="display: flex; gap: 20px; justify-content: flex-start; flex-wrap: wrap;">
+            <?php while ($tas = mysqli_fetch_assoc($task)):
+                $isCompleted = $tas['is_completed'] == 1;
+                $taskId = $tas['id'];
+                ?>
                 <div class="card text-center">
                     <form action="db/edit_db.php" method="POST">
-                        <div id="checkbox-content">
-                            <input type="checkbox" name="checkbox[]" id="checkbox-<?= $tas["id"] ?>" value="<?= $tas["id"] ?>"
-                                onChange="updateStatus(this, <?= $tas["id"] ?>)" <?= $isCompleted ? "checked" : "" ?>>
-                            <label for="checkbox-<?= $tas["id"] ?>">Заметка №
-                                <?= $tas["id"] ?>
+                        <div class="task-item checkbox-content">
+                            <input type="checkbox" id="checkbox-<?= $tas['id'] ?>"
+                                onchange="updateStatus(this, <?= $tas['id'] ?>)" <?= $tas['is_completed'] ? 'checked' : '' ?>>
+                            <label for="checkbox-<?= $tas['id'] ?>">Заметка №
+                                <?= $tas['id'] ?>
                             </label>
                         </div>
-
-                        <input type="hidden" name="task_id" value="<?= $tas["id"] ?>">
-
+                        <input type="hidden" name="task_id" value="<?= $taskId ?>">
                         <div class="card-header">
                             <input type="text" name="title" value="<?= $tas['title'] ?>" placeholder="Введите заголовок">
                         </div>
-
                         <div class="card-body">
                             <p class="card-text">
                                 <input type="text" name="descr" value="<?= $tas['descr'] ?>" placeholder="Введите описание">
@@ -112,37 +99,20 @@ $task = mysqli_query($con, $sql);
                             <button type="submit" class="btn btn-primary">Сохранить</button>
                         </div>
                     </form>
-
                     <div class="card-footer text-body-secondary">
-                        <a href="db/delete_db.php?id=<?= $tas["id"] ?>" class="delete-btn" title="Удалить">&#x1F5D1;</a>
+                        <a href="db/delete_db.php?id=<?= $taskId ?>" class="delete-btn" title="Удалить">&#x1F5D1;</a>
                     </div>
                 </div>
-
-                <script>             function updateStatus(checkbox, taskId) {
-                        const status = checkbox.checked ? 1 : 0;
-                        fetch('db/update-status.php', { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify({ task_id: taskId, completed: status }), }).then(response => response.json()).then(data => { console.log('Success:', data); }).catch((error) => { console.error('Error:', error); });
-                    }
-                </script>
-
-
-
-
             <?php endwhile; ?>
-        <?php else: ?>
-            <div class="img-empty" style="display: flex; justify-content: center;">
-                <img class="center-img" src="img/empty.png" alt="пусто">
-            </div>
-        <?php endif; ?>
+        </div>
+    <?php else: ?>
+        <div class="img-empty" style="display: flex; justify-content: center;">
+            <img class="center-img" src="img/empty.png" alt="пусто">
+        </div>
+    <?php endif; ?>
 
-
-    </div>
+    <button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">+</button>
 </div>
-<button type="button" class="add-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    +
-</button>
-</body>
-
-</html>
 
 
 
@@ -178,4 +148,29 @@ $task = mysqli_query($con, $sql);
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript" src="dark.js"></script>
-<script src="main.js"></script>
+<!-- <script src="main.js"></script> -->
+<script>
+
+    function updateStatus(checkbox, taskId) {
+        const isCompleted = checkbox.checked ? 1 : 0;
+
+        // Create an AJAX request
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "db/update_status.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        // Send the request with task ID and completion status
+        xhr.send("task_id=" + taskId + "&is_completed=" + isCompleted);
+
+        // Optional: Handle the response
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log("Status updated successfully: " + xhr.responseText);
+            } else {
+                console.error("Error updating status: " + xhr.status);
+            }
+        };
+    }
+</script>
+
+</html>
